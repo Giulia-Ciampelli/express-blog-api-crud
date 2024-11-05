@@ -54,15 +54,21 @@ const store = (req, res) => {
 // creazione update
 const update = (req, res) => {
     
-    // cerca un parametro per trovare il post (slug?)
+    // parametro per trovare il post
+    const slug = req.params.slug;
     const post = posts.find(post => post.slug === (req.params.slug));
+
+    // res di errore
+    if(!post) {
+        return res.status(404).json({
+            error: '404: post not found'
+        })
+    }
 
     // aggiorna il post con i nuovi dati
     const postUpdate = {
-        
-        // spread operator?
-        ...post, // per mantenere i dati non modificati?
-        title: req.body.title || post.title, // aggiorna eventuale titolo, o tieni i vecchi dati
+        ...post,
+        title: req.body.title || post.title,
         slug: req.body.slug || post.slug,
         content: req.body.content || post.content,
         image: req.body.image || post.image,
@@ -76,15 +82,9 @@ const update = (req, res) => {
     posts[postIndex] = postUpdate;
     
     // aggiorna il db
-    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
+    fs.writeFile('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
 
-    // crea res di errore
     // rispondi col post aggiornato
-    if(!post) {
-        return res.status(404).json({
-            error: '404: post not found'
-        })
-    }
     return res.json({
         status: 200,
         data: postUpdate
