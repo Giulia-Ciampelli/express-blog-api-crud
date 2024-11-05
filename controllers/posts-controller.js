@@ -29,6 +29,22 @@ const show = (req, res) => {
 
 // creazione update
 // app.put?
+const update = (req, res) => {
+    
+    // cerca un parametro per trovare il post (slug?)
+
+    // crea res di errore
+
+    // aggiorna il post con i nuovi dati
+
+    // trova il post da aggiornare nel db
+
+    // sovrascrivi il post
+    
+    // aggiorna il db
+
+    // rispondi col post aggiornato
+}
 
 // creazione store
 const store = (req, res) => {
@@ -58,5 +74,6 @@ const store = (req, res) => {
 module.exports = {
     index,
     show,
-    store
+    store,
+    update
 }
