@@ -56,7 +56,7 @@ const update = (req, res) => {
     
     // parametro per trovare il post
     const slug = req.params.slug;
-    const post = posts.find(post => post.slug === (req.params.slug));
+    const post = posts.find(post => post.slug === slug);
 
     // res di errore
     if(!post) {
