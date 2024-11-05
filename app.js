@@ -1,5 +1,8 @@
 // Bonus
 // Creare inoltre un filtro in querystring per tag, che ritorna in formato json tutti i post che hanno quei tag
+// Esercizio
+// e se volessi aggiornare un post? sapresti implementare la rotta update per aggiornare una risorsa esistente?
+// Alla fine dovrete usare postman come visto in classe per testare tutti i vostri endpoint.
 
 // #region variabili d'importazione
 const express = require('express');
