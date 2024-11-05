@@ -82,7 +82,7 @@ const update = (req, res) => {
     posts[postIndex] = postUpdate;
     
     // aggiorna il db
-    fs.writeFile('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
+    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
 
     // rispondi col post aggiornato
     return res.json({
