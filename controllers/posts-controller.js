@@ -27,25 +27,6 @@ const show = (req, res) => {
     })
 }
 
-// creazione update
-// app.put?
-const update = (req, res) => {
-    
-    // cerca un parametro per trovare il post (slug?)
-
-    // crea res di errore
-
-    // aggiorna il post con i nuovi dati
-
-    // trova il post da aggiornare nel db
-
-    // sovrascrivi il post
-    
-    // aggiorna il db
-
-    // rispondi col post aggiornato
-}
-
 // creazione store
 const store = (req, res) => {
     
@@ -57,16 +38,56 @@ const store = (req, res) => {
         image: req.body.image,
         tags: req.body.tags
     }
-
+    
     posts.push(postNew);
-
+    
     // update db
     fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
-
+    
     res.json({
         status: 201,
         data: posts,
         count: posts.length
+    })
+}
+
+// creazione update
+const update = (req, res) => {
+    
+    // cerca un parametro per trovare il post (slug?)
+    const post = posts.find(post => post.slug === (req.params.slug));
+
+    // aggiorna il post con i nuovi dati
+    const postUpdate = {
+        
+        // spread operator?
+        ...post, // per mantenere i dati non modificati?
+        title: req.body.title || post.title, // aggiorna eventuale titolo, o tieni i vecchi dati
+        slug: req.body.slug || post.slug,
+        content: req.body.content || post.content,
+        image: req.body.image || post.image,
+        tags: req.body.tags || post.tags
+    }
+
+    // trova il post da aggiornare nel db
+    const postIndex = posts.findIndex(post => post.slug === slug);
+
+    // sovrascrivi il post
+    posts[postIndex] = postUpdate;
+    
+    // aggiorna il db
+    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
+
+    // crea res di errore
+    // rispondi col post aggiornato
+    if(!post) {
+        return res.status(404).json({
+            error: '404: post not found'
+        })
+    }
+    return res.json({
+        status: 200,
+        data: postUpdate
     })
 }
 
