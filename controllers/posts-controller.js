@@ -12,22 +12,7 @@ const index = (req, res) => {
     })
 }
 
-// creazione show
-const show = (req, res) => {
-    const post = posts.find(post => post.slug === (req.params.slug));
-    
-    // condizioni per ritorno
-    if(!post) {
-        return res.status(404).json({
-            error: '404: post not found'
-        })
-    }
-    return res.json({
-        data: post
-    })
-}
-
-// creazione store
+// creazione store C
 const store = (req, res) => {
     
     // creazione oggetto nuovo
@@ -51,12 +36,26 @@ const store = (req, res) => {
     })
 }
 
-// creazione update
+// creazione show R
+const show = (req, res) => {
+    const post = posts.find(post => post.slug === (req.params.slug));
+    
+    // condizioni per ritorno
+    if(!post) {
+        return res.status(404).json({
+            error: '404: post not found'
+        })
+    }
+    return res.json({
+        data: post
+    })
+}
+
+// creazione update U
 const update = (req, res) => {
     
     // parametro per trovare il post
-    const slug = req.params.slug;
-    const post = posts.find(post => post.slug === slug);
+    const post = posts.find(post => post.slug === (req.params.slug));
 
     // res di errore
     if(!post) {
@@ -66,7 +65,7 @@ const update = (req, res) => {
     }
 
     // aggiorna il post con i nuovi dati
-    const postUpdate = {
+    const postsUpdate = {
         ...post,
         title: req.body.title || post.title,
         slug: req.body.slug || post.slug,
@@ -76,25 +75,54 @@ const update = (req, res) => {
     }
 
     // trova il post da aggiornare nel db
-    const postIndex = posts.findIndex(post => post.slug === slug);
+    const postIndex = posts.findIndex(post => post.slug === (req.params.slug));
 
     // sovrascrivi il post
-    posts[postIndex] = postUpdate;
+    posts[postIndex] = postsUpdate;
     
     // aggiorna il db
     fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
 
     // rispondi col post aggiornato
-    return res.json({
+    return res.status(200).json({
         status: 200,
-        data: postUpdate
+        data: postsUpdate,
+        count: postsUpdate.length
+    })
+}
+
+// creazione delete D
+const destroy = (req, res) => {
+
+    // parametro per trovare il post
+    const post = posts.find(post => post.slug === (req.params.slug));
+
+    // res di errore
+    if(!post) {
+        return res.status(404).json({
+            error: '404: post not found'
+        })
+    }
+
+    // rimozione dal db
+    const postsDestroy = posts.filter(post => post.slug !== (req.param.slug));
+
+    // aggiornamento db
+    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(postsDestroy, null, 4)}`);
+
+    // ritorno del db aggiornato
+    return res.status(200).json({
+        status: 200,
+        data: postsDestroy,
+        count: postsDestroy.length
     })
 }
 
 //esportazione totale
 module.exports = {
     index,
-    show,
     store,
-    update
+    show,
+    update,
+    destroy
 }
