@@ -98,6 +98,13 @@ const destroy = (req, res) => {
     // rimozione dal db
     const postsDestroy = posts.filter(post => post.slug !== req.params.slug);
 
+    // secondo test
+    if(postsDestroy.length === posts.length) {
+        res.status(500).json({
+            error: '500: no change in array'
+        })
+    }
+
     // aggiornamento db
     fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(postsDestroy, null, 4)}`);
 
