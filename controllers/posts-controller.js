@@ -42,11 +42,11 @@ const show = (req, res) => {
     
     // condizioni per ritorno
     if(!post) {
-        return res.status(404).json({
+        res.status(404).json({
             error: '404: post not found'
         })
     }
-    return res.json({
+    res.json({
         data: post
     })
 }
@@ -59,35 +59,26 @@ const update = (req, res) => {
 
     // res di errore
     if(!post) {
-        return res.status(404).json({
+        res.status(404).json({
             error: '404: post not found'
         })
     }
 
-    // aggiorna il post con i nuovi dati
-    const postsUpdate = {
-        ...post,
-        title: req.body.title || post.title,
-        slug: req.body.slug || post.slug,
-        content: req.body.content || post.content,
-        image: req.body.image || post.image,
-        tags: req.body.tags || post.tags
-    }
-
-    // trova il post da aggiornare nel db
-    const postIndex = posts.findIndex(post => post.slug === (req.params.slug));
-
-    // sovrascrivi il post
-    posts[postIndex] = postsUpdate;
+    // creazione oggetto
+    post.title = req.body.title;
+    post.slug = req.body.slug;
+    post.content = req.body.content;
+    post.image = req.body.image;
+    post.tags = req.body.tags;
     
     // aggiorna il db
     fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(posts, null, 4)}`);
 
     // rispondi col post aggiornato
-    return res.status(200).json({
+    res.status(200).json({
         status: 200,
-        data: postsUpdate,
-        count: postsUpdate.length
+        data: posts,
+        count: posts.length
     })
 }
 
@@ -95,7 +86,7 @@ const update = (req, res) => {
 const destroy = (req, res) => {
 
     // parametro per trovare il post
-    const post = posts.find(post => post.slug === (req.params.slug));
+    const post = posts.find(post => post.slug === req.params.slug);
 
     // res di errore
     if(!post) {
@@ -105,13 +96,13 @@ const destroy = (req, res) => {
     }
 
     // rimozione dal db
-    const postsDestroy = posts.filter(post => post.slug !== (req.param.slug));
+    const postsDestroy = posts.filter(post => post.slug !== req.params.slug);
 
     // aggiornamento db
     fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(postsDestroy, null, 4)}`);
 
     // ritorno del db aggiornato
-    return res.status(200).json({
+    res.status(200).json({
         status: 200,
         data: postsDestroy,
         count: postsDestroy.length
