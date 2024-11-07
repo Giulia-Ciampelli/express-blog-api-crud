@@ -9,6 +9,7 @@ const store = (req, res) => {
     
     // creazione oggetto nuovo
     const productNew = {
+        id: Number(products[products.length - 1].id +1),
         name: req.body.name,
         brand: req.body.brand,
         net_weight: req.body.net_weight,
@@ -36,7 +37,7 @@ const index = (req,res) => {
 }
 
 const show = (req, res) => {
-    const product = products.find(product => product.name === req.params.name);
+    const product = products.find(product => product.id === Number(req.params.id));
 
     if(!product) {
         res.status(404).json({
@@ -53,7 +54,7 @@ const show = (req, res) => {
 const update = (req, res) => {
     
     // paramentri per trovare oggetto
-    const product = products.find(product => product.name === req.params.name);
+    const product = products.find(product => product.id === Number(req.params.id));
 
     // res di errore
     if(!product) {
@@ -82,6 +83,28 @@ const update = (req, res) => {
 // creazione D
 const destroy = (req, res) => {
 
+    // parametri per trovare il prodotto giusto
+    const product = products.find(product => product.id === Number(req.params.id));
+
+    // res di errore
+    if(!product) {
+        res.status(404).json({
+            error: `404: product not found at ${req.params.name}`
+        })
+    }
+
+    // rimozione dal db
+    const productDelete = products.filter(product => product.id !== Number(req.params.id));
+
+    // aggiornamento db
+    fs.writeFileSync('./bonus-db/bonus-db.js', `module.exports = ${JSON.stringify(productDelete, null, 4)}`);
+
+    // ritorno del res aggiornato
+    res.status(200).json({
+        status: 200,
+        data: productDelete,
+        count: productDelete.length
+    })
 }
 
 // esportazione

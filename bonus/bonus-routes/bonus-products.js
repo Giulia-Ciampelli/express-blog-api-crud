@@ -11,13 +11,13 @@ router.get('/', productsController.index);
 router.post('/', productsController.store);
 
 // importazione R
-router.get('/:name', productsController.show);
+router.get('/:id', productsController.show);
 
 // importazione U
-router.put('/:name', productsController.update);
+router.put('/:id', productsController.update);
 
 // importazione D
-router.delete('/:name', productsController.destroy);
+router.delete('/:id', productsController.destroy);
 
 // esportazione totale
 module.exports = router;
