@@ -4,7 +4,12 @@ const cors = require('cors');
 const app = express();
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
+
+// importazione router
 const productsRouter = require('./bonus-routes/bonus-products.js');
+
+// importazione middleware
+const notFound = require('./middlewares/notFound.js');
 // #endregion variabili d'importazione
 
 // richiesta elaborazione corpo
@@ -18,8 +23,11 @@ app.listen(PORT, (req, res) => {
 // cors su tutte le rotte
 app.use(cors());
 
-// importazione rotte
+// uso rotte
 app.use('/products', productsRouter);
 
-// importazione assets statici
+// uso assets statici
 app.use(express.static('public'));
+
+// uso middleware errore
+app.use(notFound);

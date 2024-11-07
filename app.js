@@ -7,7 +7,12 @@ const cors = require('cors');
 const app = express();
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
+
+// importazione router
 const postsRouter = require('./routes/posts.js');
+
+// importazione middleware
+const notFound = require('./middlewares/notFound.js');
 // #endregion variabili d'importazione
 
 // elaborazione corpo richiesta
@@ -21,8 +26,11 @@ app.listen(PORT, (req,res) => {
 // uso di cors su tutte le rotte
 app.use(cors());
 
-// importazione rotte
+// uso router
 app.use('/posts', postsRouter);
 
-// assets statici
+// uso assets statici
 app.use(express.static('public'));
+
+// uso middleware errore
+app.use(notFound);
