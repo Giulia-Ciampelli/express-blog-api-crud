@@ -75,19 +75,5 @@ module.exports = [
         "brand": "Levure Francaise",
         "net_weight": "7 g",
         "price": "0.80€"
-    },
-    {
-        "id": 13,
-        "name": "Yeast (Active Dry) 2.0",
-        "brand": "Levure Francaise",
-        "net_weight": "7 g",
-        "price": "0.80€"
-    },
-    {
-        "id": 14,
-        "name": "Yeast (Active Dry) 2.0",
-        "brand": "Levure Francaise",
-        "net_weight": "7 g",
-        "price": "0.80€"
     }
 ]
