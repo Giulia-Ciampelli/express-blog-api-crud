@@ -17,6 +17,7 @@ router.get('/:name', productsController.show);
 router.put('/:name', productsController.update);
 
 // importazione D
+router.delete('/:name', productsController.destroy);
 
 // esportazione totale
 module.exports = router;

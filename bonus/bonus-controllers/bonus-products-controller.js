@@ -80,11 +80,15 @@ const update = (req, res) => {
 }
 
 // creazione D
+const destroy = (req, res) => {
+
+}
 
 // esportazione
 module.exports = {
     store,
     index,
     show,
-    update
+    update,
+    destroy
 }
