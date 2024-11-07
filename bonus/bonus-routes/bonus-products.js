@@ -8,12 +8,13 @@ const productsController = require('../bonus-controllers/bonus-products-controll
 router.get('/', productsController.index);
 
 // importazione C
-router.put('/', productsController.store);
+router.post('/', productsController.store);
 
 // importazione R
 router.get('/:name', productsController.show);
 
 // importazione U
+router.put('/:name', productsController.update);
 
 // importazione D
 
