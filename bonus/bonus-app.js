@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
-const productsRouter= require('./bonus-routes/bonus-products.js');
+const productsRouter = require('./bonus-routes/bonus-products.js');
 // #endregion variabili d'importazione
 
 // richiesta elaborazione corpo

@@ -83,9 +83,6 @@ const update = (req, res) => {
 // creazione D
 const destroy = (req, res) => {
 
-    // test per raggiungimento del DELETE
-    console.log('rotta DELETE raggiunta');
-
     // parametri per trovare il prodotto giusto
     const product = products.find(product => product.id === Number(req.params.id));
 
