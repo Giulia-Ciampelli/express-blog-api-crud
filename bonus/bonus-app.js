@@ -10,6 +10,7 @@ const productsRouter = require('./bonus-routes/bonus-products.js');
 
 // importazione middleware
 const notFound = require('./middlewares/notFound.js');
+const logger = require('./middlewares/logger.js');
 // #endregion variabili d'importazione
 
 // richiesta elaborazione corpo
@@ -22,6 +23,9 @@ app.listen(PORT, (req, res) => {
 
 // cors su tutte le rotte
 app.use(cors());
+
+// uso middleware log
+app.use('/products', logger);
 
 // uso rotte
 app.use('/products', productsRouter);

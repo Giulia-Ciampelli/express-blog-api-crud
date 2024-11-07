@@ -13,6 +13,7 @@ const postsRouter = require('./routes/posts.js');
 
 // importazione middleware
 const notFound = require('./middlewares/notFound.js');
+const logger = require('./middlewares/logger.js');
 // #endregion variabili d'importazione
 
 // elaborazione corpo richiesta
@@ -25,6 +26,9 @@ app.listen(PORT, (req,res) => {
 
 // uso di cors su tutte le rotte
 app.use(cors());
+
+// uso middleware log
+app.use('/posts', logger);
 
 // uso router
 app.use('/posts', postsRouter);
