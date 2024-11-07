@@ -4,7 +4,30 @@ const products = require('../bonus-db/bonus-db.js');
 // importazione modulo fs
 const fs = require('fs');
 
-// creazione index
+// creazione C
+const store = (req, res) => {
+    
+    // creazione oggetto nuovo
+    const productNew = {
+        name: req.body.name,
+        brand: req.body.brand,
+        net_weight: req.body.net_weight,
+        price: req.body.price
+    }
+
+    products.push(productNew);
+
+    // aggiornamento db
+    fs.writeFileSync('./bonus-db/bonus-db.js', `module.exports = ${JSON.stringify(products, null, 4)}`);
+
+    res.json({
+        staus: 201,
+        data: products,
+        count: products.length
+    })
+}
+
+// creazione R
 const index = (req,res) => {
     res.json({
         data: products,
@@ -12,9 +35,6 @@ const index = (req,res) => {
     })
 }
 
-// creazione C
-
-// creazione R
 const show = (req, res) => {
     const product = products.find(product => product.name === req.params.name);
 
@@ -35,6 +55,7 @@ const show = (req, res) => {
 
 // esportazione
 module.exports = {
+    store,
     index,
     show
 }
