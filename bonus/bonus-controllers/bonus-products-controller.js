@@ -83,6 +83,9 @@ const update = (req, res) => {
 // creazione D
 const destroy = (req, res) => {
 
+    // test per raggiungimento del DELETE
+    console.log('rotta DELETE raggiunta');
+
     // parametri per trovare il prodotto giusto
     const product = products.find(product => product.id === Number(req.params.id));
 
@@ -96,11 +99,18 @@ const destroy = (req, res) => {
     // rimozione dal db
     const productDelete = products.filter(product => product.id !== Number(req.params.id));
 
+    // test rimozione
+    if(productDelete.length === products.length) {
+        return res.status(500).json({
+            error: '500: no change in db'
+        })
+    }
+
     // aggiornamento db
     fs.writeFileSync('./bonus-db/bonus-db.js', `module.exports = ${JSON.stringify(productDelete, null, 4)}`);
 
     // ritorno del res aggiornato
-    res.status(200).json({
+    return res.status(200).json({
         status: 200,
         data: productDelete,
         count: productDelete.length
